@@ -1,25 +1,47 @@
-import time
-
-t = time.localtime()
-a=time.asctime(t)
-print(t)
-print(a)
-print(a[0])
-print(t.tm_hour)
-print(isinstance(t.tm_hour,int))#判断数据类型
-
-print('你好')
+import requests
+from bs4 import BeautifulSoup
 
 
-def ai(c):
-    item_ball = ('乒乓球运动训练'，'气排球'，'男子篮球')
-    item_outdoor = ('跑步')
-    c = c.decode('gbk').encode('utf-8')
+def get_soup(url):
+    page = requests.get(url).content.decode('gb2312',errors='ignore')
+    soup = BeautifulSoup(page, 'html.parser')
+    return soup
+
+def get_info(soup):
+
+    infos = soup.find('div',{'id':'list_r_list'}).find_all('span')
+    #print(infos)
+    for info in infos:
+
+        url = info.find('a')
+        if url:
+            url = url.get('href')
+            url = 'http://www.china-cba.net/' + url
+            #print(url)
+            soup = get_soup(url)
+            #print(soup.prettify())
+            infos = soup.find('div',{'id':'my_bencandy_in'})
+            title = infos.find('div',{'id':'my_bencandy_in_tit'}).text
+            conts = infos.find('div',{'id':'my_bencandy_in_main'}).find_all('div')
+            f.write(title)
+            f.write('\n')
+            for cont in conts:
+                cont = cont.text
+                f.write(cont)
+                f.write('\n')
 
 
-    if c in item_ball:
-        print('推荐运动类型：球类运动')
-    elif c in item_outdoor :
+                print(cont)
 
-if __name__ == '__main__':
-    a =ai('跑步')
+if __name__  == '__main__':
+
+        for i in range(1,5):
+
+            url = ('http://www.china-cba.net/list.php?fid=42&page=%d') % (i)
+            f = open('协会动态协会要闻.txt', 'a+',encoding='utf-8')
+            soup = get_soup(url)
+            info = get_info(soup)
+            time.sleep(1)
+f.close()#循环结束后关闭文件
+
+

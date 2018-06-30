@@ -19,7 +19,7 @@ def get_info(url):#构造函数
     html = requests.get(url,headers = headers)
     if html.status_code == 200 :#确认连接正确
         page = html.content.decode('utf-8')
-        page = BeautifulSoup(page,'html.parser'）#解析页面
+        page = BeautifulSoup(page,'html.parser')#解析页面
         content = page.find('div',{'class':'read_chapterDetail'}).text#拿到内容
         #print(content)
         f.write(content)#写入文件
