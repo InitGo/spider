@@ -1,0 +1,5 @@
+Server: nginx/1.12.1
+Date: Wed, 23 May 2018 06:20:35 GMT
+Content-Type: text/html
+X-Upstream: toscrape-books-master_web
+Content-Encoding: gzip
